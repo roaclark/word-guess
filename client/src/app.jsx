@@ -2,25 +2,16 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import styles from './styles.css';
 import RoomForm from './RoomForm';
+import GameDisplay from './GameDisplay';
 import useSocket from './socket';
-
-const getGuessStatus = (guesser, word, username) => {
-  if (!guesser) {
-    return 'Waiting for new word...';
-  }
-  if (guesser == username) {
-    return 'Try to guess the word!';
-  }
-  return `${guesser} is trying to guess ${word}`;
-};
+import './styles.css';
 
 const App = () => {
   const {
     room,
     username,
-    users,
+    players,
     guesser,
     word,
     joinRoom,
@@ -29,19 +20,14 @@ const App = () => {
 
   if (room && username) {
     return (
-      <div>
-        <div className={styles.hello}>{`${username} in room ${room}`}</div>
-        <div>{users.join(', ')}</div>
-        <div>{getGuessStatus(guesser, word, username)}</div>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            getNewWord();
-          }}
-        >
-          Generate new word
-        </button>
-      </div>
+      <GameDisplay
+        room={room}
+        username={username}
+        players={players}
+        word={word}
+        guesser={guesser}
+        getNewWord={getNewWord}
+      />
     );
   }
 
