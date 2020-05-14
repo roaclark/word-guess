@@ -17,6 +17,12 @@ const server = app.listen(port, () => {
 const io = socketio(server, { path: '/api/events' })
 
 io.on('connection', (socket) => {
+  socket.on('join room', ({ username, room }) => {
+    console.log(`user ${username} joined ${room}`)
+    socket.join(room, () => {
+      socket.to(room).emit('user joined', { username })
+    })
+  })
   console.log('a user connected')
   socket.on('disconnect', () => {
     console.log('a user disconnected')
