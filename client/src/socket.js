@@ -12,7 +12,7 @@ const useSocket = () => {
   useEffect(() => {
     socket.on('user joined', ({ users }) => setUsers(users));
     socket.on('user left', ({ users }) => setUsers(users));
-    socket.on('word', ({ guesser, word }) => {
+    socket.on('round', ({ guesser, word }) => {
       setWord(word);
       setGuesser(guesser);
     });
@@ -39,7 +39,7 @@ const useSocket = () => {
       setRoom(room);
       setUsername(username);
     },
-    getNewWord: () => socket.emit('new word'),
+    getNewWord: () => socket.emit('new round'),
   };
 };
 

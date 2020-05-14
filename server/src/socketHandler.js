@@ -6,6 +6,7 @@ import {
   removeUserFromRoom,
   getUsersInRoom,
   getUserRoom,
+  generateRound,
 } from './rooms';
 
 const socketToUsers: { [string]: ?string } = {};
@@ -48,20 +49,12 @@ const leaveRoom = (socket: Socket, server: Server): void => {
   delete socketToUsers[socket.id];
 };
 
-const selectRandom = (lis) => {
-  if (lis.length < 1) {
-    return null;
-  }
-  const index = Math.floor(Math.random() * lis.length);
-  return lis[index];
-};
-
 const selectNewWord = (socket: Socket, server: Server): void => {
   const { room } = getDetailsForSocket(socket);
   if (room) {
-    const nextUser = selectRandom(getUsersInRoom(room));
-    if (nextUser) {
-      server.sockets.to(room).emit('word', { guesser: nextUser, word: 'foo' });
+    const nextWord = generateRound(room);
+    if (nextWord) {
+      server.sockets.to(room).emit('round', nextWord);
     }
   }
 };
@@ -69,7 +62,7 @@ const selectNewWord = (socket: Socket, server: Server): void => {
 const setup = (server: Server) => (socket: Socket) => {
   socket.on('join room', (e) => joinRoom(e, socket, server));
   socket.on('leave room', () => leaveRoom(socket, server));
-  socket.on('new word', () => selectNewWord(socket, server));
+  socket.on('new round', () => selectNewWord(socket, server));
   console.log('a user connected');
   socket.on('disconnect', () => {
     leaveRoom(socket, server);

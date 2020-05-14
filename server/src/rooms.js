@@ -1,6 +1,7 @@
 //@flow
 const rooms: { [string]: ?{ [string]: boolean } } = {};
 const userToRoom: { [string]: ?string } = {};
+const roomToRound: { [string]: ?{ word: string, guesser: string } } = {};
 
 export const addUserToRoom = (username: string, room: string): void => {
   const users = rooms[room];
@@ -29,4 +30,30 @@ export const getUsersInRoom = (room: string): string[] => {
 
 export const getUserRoom = (username: string): ?string => {
   return userToRoom[username];
+};
+
+const selectRandom = (lis) => {
+  if (lis.length < 1) {
+    return null;
+  }
+  const index = Math.floor(Math.random() * lis.length);
+  return lis[index];
+};
+
+export const generateRound = (
+  room: string,
+): ?{ guesser: string, word: string } => {
+  const nextUser = selectRandom(getUsersInRoom(room));
+  if (!nextUser) {
+    return null;
+  }
+  const round = { guesser: nextUser, word: 'foo' };
+  roomToRound[room] = round;
+  return round;
+};
+
+export const getRoomRound = (
+  room: string,
+): ?{ word: string, guesser: string } => {
+  return roomToRound[room];
 };
