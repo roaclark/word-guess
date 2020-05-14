@@ -1,6 +1,7 @@
 //@flow
 import React from 'react';
 
+import PlayerList from './PlayerList';
 import styles from './styles.css';
 
 type Props = {
@@ -26,18 +27,22 @@ const GameDisplay = (props: Props) => {
   const { room, username, players, guesser, word, getNewWord } = props;
 
   return (
-    <div>
-      <div className={styles.hello}>{`${username} in room ${room}`}</div>
-      <div>{players.join(', ')}</div>
-      <div>{getGuessStatus(guesser, word, username)}</div>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          getNewWord();
-        }}
-      >
-        Generate new word
-      </button>
+    <div style={{ display: 'flex' }}>
+      <div style={{ flex: '50%' }}>
+        <div className={styles.hello}>{word || '???'}</div>
+        <div>{getGuessStatus(guesser, word, username)}</div>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            getNewWord();
+          }}
+        >
+          Generate new word
+        </button>
+      </div>
+      <div style={{ flex: '50%' }}>
+        <PlayerList room={room} players={players} username={username} />
+      </div>
     </div>
   );
 };
