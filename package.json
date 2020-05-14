@@ -23,7 +23,6 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-flow": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
-    "@babel/runtime": "^7.9.6",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.3",
@@ -46,6 +45,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
+    "@babel/runtime": "^7.9.6",
     "express": "^4.17.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
