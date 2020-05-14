@@ -1,4 +1,6 @@
 //@flow
+import words from './words';
+
 const rooms: { [string]: ?{ [string]: boolean } } = {};
 const userToRoom: { [string]: ?string } = {};
 const roomToRound: { [string]: ?{ word: string, guesser: string } } = {};
@@ -44,10 +46,11 @@ export const generateRound = (
   room: string,
 ): ?{ guesser: string, word: string } => {
   const nextUser = selectRandom(getUsersInRoom(room));
-  if (!nextUser) {
+  const nextWord = selectRandom(words);
+  if (!nextUser || !nextWord) {
     return null;
   }
-  const round = { guesser: nextUser, word: 'foo' };
+  const round = { guesser: nextUser, word: nextWord };
   roomToRound[room] = round;
   return round;
 };
