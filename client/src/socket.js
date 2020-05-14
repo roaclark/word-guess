@@ -1,7 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 
 const useSocket = () => {
+  const [room, setRoom] = useState();
+  const [username, setUsername] = useState();
+
   const { current: socket } = useRef(io({ path: '/api/events' }));
   useEffect(() => {
     socket.on('user joined', ({ username, users }) =>
@@ -16,7 +19,16 @@ const useSocket = () => {
       socket && socket.close();
     };
   }, [socket]);
-  return [socket];
+
+  return {
+    room,
+    username,
+    joinRoom: ({ room, username }) => {
+      socket.emit('join room', { room, username });
+      setRoom(room);
+      setUsername(username);
+    },
+  };
 };
 
 export default useSocket;

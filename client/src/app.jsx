@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 
 import styles from './styles.css';
@@ -7,9 +7,7 @@ import RoomForm from './RoomForm';
 import useSocket from './socket';
 
 const App = () => {
-  const [room, setRoom] = useState();
-  const [username, setUsername] = useState();
-  const [socket] = useSocket();
+  const { room, username, joinRoom } = useSocket();
 
   if (room && username) {
     return (
@@ -19,15 +17,7 @@ const App = () => {
     );
   }
 
-  return (
-    <RoomForm
-      onSubmit={({ room, username }) => {
-        socket.emit('join room', { room, username });
-        setRoom(room);
-        setUsername(username);
-      }}
-    />
-  );
+  return <RoomForm onSubmit={joinRoom} />;
 };
 
 const root = document.getElementById('app');
