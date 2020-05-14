@@ -10,9 +10,7 @@ const App = () => {
   const [room, setRoom] = useState()
   const [username, setUsername] = useState()
 
-  const { current: socket } = useRef(
-    io('http://localhost:3000', { path: '/api/events' }),
-  )
+  const { current: socket } = useRef(io({ path: '/api/events' }))
   useEffect(() => {
     socket.on('user joined', ({ username }) =>
       console.log(`${username} joined`),
