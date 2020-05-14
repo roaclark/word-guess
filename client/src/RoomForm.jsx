@@ -1,11 +1,11 @@
 // @flow
 import React, { useState } from 'react';
 
-const RoomForm = ({
-  onSubmit,
-}: {
+type Props = {
   onSubmit: ({ username: string, room: string }) => void,
-}) => {
+};
+
+const RoomForm = ({ onSubmit }: Props) => {
   const [username, setUsername] = useState();
   const [room, setRoom] = useState();
 

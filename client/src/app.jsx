@@ -1,29 +1,15 @@
 // @flow
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { render } from 'react-dom';
-import io from 'socket.io-client';
 
 import styles from './styles.css';
 import RoomForm from './RoomForm';
+import useSocket from './socket';
 
 const App = () => {
   const [room, setRoom] = useState();
   const [username, setUsername] = useState();
-
-  const { current: socket } = useRef(io({ path: '/api/events' }));
-  useEffect(() => {
-    socket.on('user joined', ({ username, users }) =>
-      console.log(`${username} joined (${users})`),
-    );
-    socket.on('user left', ({ username, users }) =>
-      console.log(`${username} left (${users})`),
-    );
-
-    return () => {
-      socket && socket.removeAllListeners();
-      socket && socket.close();
-    };
-  }, [socket]);
+  const [socket] = useSocket();
 
   if (room && username) {
     return (
