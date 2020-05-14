@@ -1,6 +1,7 @@
-const express = require('express');
-const path = require('path');
-const socketio = require('socket.io');
+import express from 'express';
+import path from 'path';
+import socketio from 'socket.io';
+import socketHandler from './socketHandler.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,15 +17,4 @@ const server = app.listen(port, () => {
 });
 const io = socketio(server, { path: '/api/events' });
 
-io.on('connection', (socket) => {
-  socket.on('join room', ({ username, room }) => {
-    console.log(`user ${username} joined ${room}`);
-    socket.join(room, () => {
-      socket.to(room).emit('user joined', { username });
-    });
-  });
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('a user disconnected');
-  });
-});
+io.on('connection', socketHandler(io));

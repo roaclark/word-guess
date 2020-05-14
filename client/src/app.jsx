@@ -12,8 +12,11 @@ const App = () => {
 
   const { current: socket } = useRef(io({ path: '/api/events' }));
   useEffect(() => {
-    socket.on('user joined', ({ username }) =>
-      console.log(`${username} joined`),
+    socket.on('user joined', ({ username, users }) =>
+      console.log(`${username} joined (${users})`),
+    );
+    socket.on('user left', ({ username, users }) =>
+      console.log(`${username} left (${users})`),
     );
 
     return () => {
