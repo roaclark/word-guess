@@ -1,47 +1,47 @@
 // @flow
-import React, { useRef, useEffect, useState } from 'react'
-import { render } from 'react-dom'
-import io from 'socket.io-client'
+import React, { useRef, useEffect, useState } from 'react';
+import { render } from 'react-dom';
+import io from 'socket.io-client';
 
-import styles from './styles.css'
-import RoomForm from './RoomForm'
+import styles from './styles.css';
+import RoomForm from './RoomForm';
 
 const App = () => {
-  const [room, setRoom] = useState()
-  const [username, setUsername] = useState()
+  const [room, setRoom] = useState();
+  const [username, setUsername] = useState();
 
-  const { current: socket } = useRef(io({ path: '/api/events' }))
+  const { current: socket } = useRef(io({ path: '/api/events' }));
   useEffect(() => {
     socket.on('user joined', ({ username }) =>
       console.log(`${username} joined`),
-    )
+    );
 
     return () => {
-      socket && socket.removeAllListeners()
-      socket && socket.close()
-    }
-  }, [socket])
+      socket && socket.removeAllListeners();
+      socket && socket.close();
+    };
+  }, [socket]);
 
   if (room && username) {
     return (
       <div>
         <div className={styles.hello}>{`${username} in room ${room}`}</div>
       </div>
-    )
+    );
   }
 
   return (
     <RoomForm
       onSubmit={({ room, username }) => {
-        socket.emit('join room', { room, username })
-        setRoom(room)
-        setUsername(username)
+        socket.emit('join room', { room, username });
+        setRoom(room);
+        setUsername(username);
       }}
     />
-  )
-}
+  );
+};
 
-const root = document.getElementById('app')
+const root = document.getElementById('app');
 if (root) {
-  render(<App />, root)
+  render(<App />, root);
 }

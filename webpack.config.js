@@ -1,12 +1,12 @@
-const webpack = require('webpack')
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const paths = {
   CLIENT_DIST: path.resolve(__dirname, 'client/dist'),
   CLIENT: path.resolve(__dirname, 'client/src'),
-}
+};
 
 module.exports = {
   entry: ['@babel/polyfill', path.join(paths.CLIENT, 'app.jsx')],
@@ -62,4 +62,4 @@ module.exports = {
     },
     hot: true,
   },
-}
+};

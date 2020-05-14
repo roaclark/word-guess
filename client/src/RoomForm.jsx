@@ -1,21 +1,21 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 const RoomForm = ({
   onSubmit,
 }: {
   onSubmit: ({ username: string, room: string }) => void,
 }) => {
-  const [username, setUsername] = useState()
-  const [room, setRoom] = useState()
+  const [username, setUsername] = useState();
+  const [room, setRoom] = useState();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!username || !room) {
-      return alert('Bad input')
+      return alert('Bad input');
     }
-    onSubmit({ username, room })
-  }
+    onSubmit({ username, room });
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -34,7 +34,7 @@ const RoomForm = ({
       <br />
       <button type="submit">Submit</button>
     </form>
-  )
-}
+  );
+};
 
-export default RoomForm
+export default RoomForm;
