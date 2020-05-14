@@ -7,6 +7,7 @@ import {
   getUsersInRoom,
   getUserRoom,
   generateRound,
+  getRoomRound,
 } from './rooms';
 
 const socketToUsers: { [string]: ?string } = {};
@@ -33,6 +34,7 @@ const joinRoom = (
     server.sockets
       .to(room)
       .emit('user joined', { username, users: getUsersInRoom(room) });
+    server.sockets.to(socket.id).emit('round', getRoomRound(room));
   });
   socketToUsers[socket.id] = username;
 };
