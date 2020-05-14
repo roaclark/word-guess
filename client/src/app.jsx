@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { render } from 'react-dom'
+import io from 'socket.io-client'
 
 import styles from './styles.css'
 
@@ -11,6 +12,8 @@ export default class App extends Component<*, *> {
       ? await response.text()
       : 'The server is sad. :('
     this.setState({ text: message })
+
+    io({ path: '/api/events' })
   }
 
   render() {
