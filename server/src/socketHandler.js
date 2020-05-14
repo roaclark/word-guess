@@ -34,7 +34,10 @@ const joinRoom = (
     server.sockets
       .to(room)
       .emit('user joined', { username, users: getUsersInRoom(room) });
-    server.sockets.to(socket.id).emit('round', getRoomRound(room));
+    const round = getRoomRound(room);
+    if (round) {
+      server.sockets.to(socket.id).emit('round', round);
+    }
   });
   socketToUsers[socket.id] = username;
 };
@@ -47,24 +50,32 @@ const leaveRoom = (socket: Socket, server: Server): void => {
     server.sockets
       .to(room)
       .emit('user left', { username, users: getUsersInRoom(room) });
+    const round = getRoomRound(room);
+    if (round && round.guesser === username) {
+      selectNewWord(room, server);
+    }
   }
   delete socketToUsers[socket.id];
 };
 
-const selectNewWord = (socket: Socket, server: Server): void => {
+const generateNewRound = (socket: Socket, server: Server): void => {
   const { room } = getDetailsForSocket(socket);
   if (room) {
-    const nextWord = generateRound(room);
-    if (nextWord) {
-      server.sockets.to(room).emit('round', nextWord);
-    }
+    selectNewWord(room, server);
+  }
+};
+
+const selectNewWord = (room: string, server: Server): void => {
+  const nextWord = generateRound(room);
+  if (nextWord) {
+    server.sockets.to(room).emit('round', nextWord);
   }
 };
 
 const setup = (server: Server) => (socket: Socket) => {
   socket.on('join room', (e) => joinRoom(e, socket, server));
   socket.on('leave room', () => leaveRoom(socket, server));
-  socket.on('new round', () => selectNewWord(socket, server));
+  socket.on('new round', () => generateNewRound(socket, server));
   console.log('a user connected');
   socket.on('disconnect', () => {
     leaveRoom(socket, server);

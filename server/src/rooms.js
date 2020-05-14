@@ -48,11 +48,11 @@ export const generateRound = (
   const nextUser = selectRandom(getUsersInRoom(room));
   const nextWord = selectRandom(words);
   if (!nextUser || !nextWord) {
-    return null;
+    delete roomToRound[room];
+  } else {
+    roomToRound[room] = { guesser: nextUser, word: nextWord };
   }
-  const round = { guesser: nextUser, word: nextWord };
-  roomToRound[room] = round;
-  return round;
+  return getRoomRound(room);
 };
 
 export const getRoomRound = (
