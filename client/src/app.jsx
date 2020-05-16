@@ -18,8 +18,8 @@ const App = () => {
     getNewWord,
   } = useSocket();
 
-  if (room && username) {
-    return (
+  const content =
+    room && username ? (
       <GameDisplay
         room={room}
         username={username}
@@ -28,10 +28,11 @@ const App = () => {
         guesser={guesser}
         getNewWord={getNewWord}
       />
+    ) : (
+      <RoomForm onSubmit={joinRoom} />
     );
-  }
 
-  return <RoomForm onSubmit={joinRoom} />;
+  return <div style={{ maxWidth: '800px', margin: 'auto' }}>{content}</div>;
 };
 
 const root = document.getElementById('app');
