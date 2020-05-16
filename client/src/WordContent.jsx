@@ -31,7 +31,7 @@ const Content = ({ word, guesser, username, getNewWord }: Props) => {
 
   return (
     <>
-      <div>{guesser} is trying to guess</div>
+      <div style={{ padding: '10px' }}>{guesser} is trying to guess</div>
       <div style={{ alignSelf: 'stretch', margin: '20px' }}>
         <div className={styles.hello}>{word}</div>
       </div>
