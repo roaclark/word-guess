@@ -41,10 +41,28 @@ const WordContent = ({
 
   if (guesser == username) {
     return (
-      <div>
-        <div>Try to guess the word!</div>
-        <div className={styles.hello}>???</div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <div style={{ padding: '10px' }}>Try to guess the word!</div>
+        <div
+          style={{ alignSelf: 'stretch', margin: '20px' }}
+          className={styles.hello}
+        >
+          ???
+        </div>
         <button
+          style={{
+            margin: '10px 10px 50px 10px',
+            borderRadius: '10px',
+            padding: '10px 10px',
+            fontSize: '16px',
+            cursor: 'pointer',
+          }}
           onClick={(e) => {
             e.preventDefault();
             getNewWord();
@@ -68,17 +86,35 @@ const GameDisplay = (props: Props) => {
   const { room, username, players, guesser, word, getNewWord } = props;
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ flex: '50%' }}>
-        <WordContent
-          word={word}
-          guesser={guesser}
-          username={username}
-          getNewWord={getNewWord}
-        />
-      </div>
-      <div style={{ flex: '50%' }}>
-        <PlayerList room={room} players={players} username={username} />
+    <div style={{ maxWidth: '800px', margin: 'auto' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-around',
+        }}
+      >
+        <div style={{ flex: '1 1 200px', padding: '0 20px' }}>
+          <WordContent
+            word={word}
+            guesser={guesser}
+            username={username}
+            getNewWord={getNewWord}
+          />
+        </div>
+        <div
+          style={{
+            flex: '1 1 200px',
+            border: 'lightgray 1px solid',
+            padding: '10px',
+            borderRadius: '5px',
+            background: '#FCFEFF',
+            color: 'gray',
+            maxWidth: '300px',
+          }}
+        >
+          <PlayerList room={room} players={players} username={username} />
+        </div>
       </div>
     </div>
   );
