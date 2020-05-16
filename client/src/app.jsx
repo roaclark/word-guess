@@ -5,7 +5,6 @@ import { render } from 'react-dom';
 import RoomForm from './RoomForm';
 import GameDisplay from './GameDisplay';
 import useSocket from './socket';
-import './styles.css';
 
 const App = () => {
   const {
@@ -32,7 +31,18 @@ const App = () => {
       <RoomForm onSubmit={joinRoom} />
     );
 
-  return <div style={{ maxWidth: '800px', margin: 'auto' }}>{content}</div>;
+  return (
+    <div
+      style={{
+        maxWidth: '800px',
+        margin: 'auto',
+        padding: '10%',
+        fontFamily: 'system-ui',
+      }}
+    >
+      {content}
+    </div>
+  );
 };
 
 const root = document.getElementById('app');
