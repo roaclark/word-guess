@@ -2,6 +2,7 @@
 import React from 'react';
 
 import PlayerList from './PlayerList';
+import Button from './Button';
 import styles from './styles.css';
 
 type Props = {
@@ -25,18 +26,7 @@ const WordContent = ({
   getNewWord: () => void,
 }) => {
   if (!word) {
-    return (
-      <div>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            getNewWord();
-          }}
-        >
-          Start the game
-        </button>
-      </div>
-    );
+    return <Button onClick={getNewWord}>Start the game</Button>;
   }
 
   if (guesser == username) {
@@ -55,21 +45,7 @@ const WordContent = ({
         >
           ???
         </div>
-        <button
-          style={{
-            margin: '10px 10px 50px 10px',
-            borderRadius: '10px',
-            padding: '10px 10px',
-            fontSize: '16px',
-            cursor: 'pointer',
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            getNewWord();
-          }}
-        >
-          Generate new word
-        </button>
+        <Button onClick={getNewWord}>Generate new word</Button>
       </div>
     );
   }
