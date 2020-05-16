@@ -2,11 +2,12 @@
 import * as React from 'react';
 
 type Props = {
-  onClick: () => void,
+  onClick?: () => void,
+  type?: string,
   children: React.Node,
 };
 
-const Button = ({ onClick, children }: Props): React.Node => {
+const Button = ({ onClick, type, children }: Props): React.Node => {
   return (
     <button
       style={{
@@ -17,9 +18,12 @@ const Button = ({ onClick, children }: Props): React.Node => {
         cursor: 'pointer',
       }}
       onClick={(e) => {
-        e.preventDefault();
-        onClick();
+        if (onClick) {
+          e.preventDefault();
+          onClick();
+        }
       }}
+      type={type}
     >
       {children}
     </button>
