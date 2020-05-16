@@ -3,14 +3,3 @@ body {
   padding: 10%;
   font-family: system-ui;
 }
-
-.hello {
-  text-align: center;
-  font-size: 30px;
-  font-family: monospace;
-  margin: auto;
-  background: #232937;
-  color: #f9fbff;
-  max-width: 300px;
-  padding: 30px;
-}

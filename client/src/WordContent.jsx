@@ -2,7 +2,6 @@
 import React from 'react';
 
 import Button from './Button';
-import styles from './styles.css';
 
 type Props = {
   word: ?string,
@@ -12,18 +11,37 @@ type Props = {
   style?: any,
 };
 
+const renderWord = (word) => (
+  <div style={{ alignSelf: 'stretch', margin: '20px' }}>
+    <div
+      style={{
+        textAlign: 'center',
+        fontSize: '30px',
+        fontFamily: 'monospace',
+        margin: 'auto',
+        background: '#232937',
+        color: '#f9fbff',
+        maxWidth: '300px',
+        padding: '30px',
+      }}
+    >
+      {word}
+    </div>
+  </div>
+);
+
+const renderHeader = (text) => <div style={{ padding: '10px' }}>{text}</div>;
+
 const Content = ({ word, guesser, username, getNewWord }: Props) => {
-  if (!word) {
+  if (!word || !guesser) {
     return <Button onClick={getNewWord}>Start the game</Button>;
   }
 
   if (guesser == username) {
     return (
       <>
-        <div style={{ padding: '10px' }}>Try to guess the word!</div>
-        <div style={{ alignSelf: 'stretch', margin: '20px' }}>
-          <div className={styles.hello}>???</div>
-        </div>
+        {renderHeader('Try to guess the word!')}
+        {renderWord('???')}
         <Button onClick={getNewWord}>Generate new word</Button>
       </>
     );
@@ -31,10 +49,8 @@ const Content = ({ word, guesser, username, getNewWord }: Props) => {
 
   return (
     <>
-      <div style={{ padding: '10px' }}>{guesser} is trying to guess</div>
-      <div style={{ alignSelf: 'stretch', margin: '20px' }}>
-        <div className={styles.hello}>{word}</div>
-      </div>
+      {renderHeader(`${guesser} is trying to guess`)}
+      {renderWord(word)}
     </>
   );
 };
