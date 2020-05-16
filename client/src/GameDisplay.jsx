@@ -24,27 +24,19 @@ const GameDisplay = (props: Props) => {
         justifyContent: 'space-around',
       }}
     >
-      <div style={{ flex: '1 1 200px', padding: '0 20px' }}>
-        <WordContent
-          word={word}
-          guesser={guesser}
-          username={username}
-          getNewWord={getNewWord}
-        />
-      </div>
-      <div
-        style={{
-          flex: '1 1 200px',
-          border: 'lightgray 1px solid',
-          padding: '10px',
-          borderRadius: '5px',
-          background: '#FCFEFF',
-          color: 'gray',
-          maxWidth: '300px',
-        }}
-      >
-        <PlayerList room={room} players={players} username={username} />
-      </div>
+      <WordContent
+        word={word}
+        guesser={guesser}
+        username={username}
+        getNewWord={getNewWord}
+        style={{ flex: '1 1 200px' }}
+      />
+      <PlayerList
+        room={room}
+        players={players}
+        username={username}
+        style={{ flex: '1 1 200px' }}
+      />
     </div>
   );
 };

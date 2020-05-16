@@ -5,11 +5,22 @@ type Props = {
   room: string,
   username: string,
   players: string[],
+  style?: any,
 };
 
-const PlayerList = ({ room, players, username }: Props) => {
+const PlayerList = ({ room, players, username, style }: Props) => {
   return (
-    <div>
+    <div
+      style={{
+        ...style,
+        border: 'lightgray 1px solid',
+        padding: '10px',
+        borderRadius: '5px',
+        background: '#FCFEFF',
+        color: 'gray',
+        maxWidth: '300px',
+      }}
+    >
       <div
         style={{
           borderBottom: '1px lightgray solid',
