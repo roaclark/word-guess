@@ -39,11 +39,8 @@ const WordContent = ({
         }}
       >
         <div style={{ padding: '10px' }}>Try to guess the word!</div>
-        <div
-          style={{ alignSelf: 'stretch', margin: '20px' }}
-          className={styles.hello}
-        >
-          ???
+        <div style={{ alignSelf: 'stretch', margin: '20px' }}>
+          <div className={styles.hello}>???</div>
         </div>
         <Button onClick={getNewWord}>Generate new word</Button>
       </div>
