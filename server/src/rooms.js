@@ -1,9 +1,5 @@
 //@flow
-import words from './words';
-
-const wordsByCategory = {
-  normal: ['test word'],
-};
+import categories from './categories';
 
 type Round = { word: string, guesser: string, category?: string };
 
@@ -50,7 +46,8 @@ const selectRandom = (lis) => {
 
 export const generateRound = (room: string, category?: string): ?Round => {
   const nextUser = selectRandom(getUsersInRoom(room));
-  const wordList = (category && wordsByCategory[category]) || words;
+  const wordCategory = (category && categories[category]) || categories.normal;
+  const wordList = wordCategory.wordList;
   const nextWord = selectRandom(wordList);
   if (!nextUser || !nextWord) {
     delete roomToRound[room];
