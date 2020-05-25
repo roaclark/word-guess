@@ -6,7 +6,7 @@ const Select = ({
   value,
   onChange,
 }: {
-  options: { name: string, value: string }[],
+  options: { label: string, id: string }[],
   value: ?string,
   onChange?: (string) => void,
 }) => {
@@ -31,9 +31,9 @@ const Select = ({
           onChange && onChange(e.target.value);
         }}
       >
-        {options.map(({ name, value }) => (
-          <option value={value} key={value}>
-            {name}
+        {options.map(({ label, id }) => (
+          <option value={id} key={id}>
+            {label}
           </option>
         ))}
       </select>

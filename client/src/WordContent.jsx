@@ -1,5 +1,5 @@
 //@flow
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Select from './Select';
 import Button from './Button';
@@ -13,10 +13,11 @@ type Props = {
   style?: any,
 };
 
-const wordListOptions = [
-  { value: 'normal', name: 'Normal' },
-  { value: 'default', name: 'Default' },
-];
+const fetchCategories = async (callback) => {
+  const result = await fetch('/api/categories');
+  const data = await result.json();
+  callback(data);
+};
 
 const renderWord = (word) => (
   <div style={{ alignSelf: 'stretch', margin: '20px' }}>
@@ -43,12 +44,17 @@ const Content = ({ word, guesser, category, username, getNewWord }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState(
     category || 'default',
   );
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    fetchCategories(setCategories);
+  }, []);
+  console.log(categories);
 
   if (!word || !guesser) {
     return (
       <>
         <Select
-          options={wordListOptions}
+          options={categories}
           value={selectedCategory}
           onChange={setSelectedCategory}
         />
@@ -65,7 +71,7 @@ const Content = ({ word, guesser, category, username, getNewWord }: Props) => {
         {renderHeader('Try to guess the word!')}
         {renderWord('???')}
         <Select
-          options={wordListOptions}
+          options={categories}
           value={selectedCategory}
           onChange={setSelectedCategory}
         />
