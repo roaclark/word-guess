@@ -16,7 +16,7 @@ const PlayerList = ({ room, players, username, style }: Props) => {
         border: 'lightgray 1px solid',
         padding: '10px',
         borderRadius: '5px',
-        background: '#FCFEFF',
+        background: 'white',
         color: 'gray',
         maxWidth: '300px',
       }}
