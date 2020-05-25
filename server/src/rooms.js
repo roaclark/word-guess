@@ -1,9 +1,15 @@
 //@flow
 import words from './words';
 
+const wordsByCategory = {
+  normal: ['test word'],
+};
+
+type Round = { word: string, guesser: string, category?: string };
+
 const rooms: { [string]: ?{ [string]: boolean } } = {};
 const userToRoom: { [string]: ?string } = {};
-const roomToRound: { [string]: ?{ word: string, guesser: string } } = {};
+const roomToRound: { [string]: ?Round } = {};
 
 export const addUserToRoom = (username: string, room: string): void => {
   const users = rooms[room];
@@ -42,11 +48,10 @@ const selectRandom = (lis) => {
   return lis[index];
 };
 
-export const generateRound = (
-  room: string,
-): ?{ guesser: string, word: string } => {
+export const generateRound = (room: string, category?: string): ?Round => {
   const nextUser = selectRandom(getUsersInRoom(room));
-  const nextWord = selectRandom(words);
+  const wordList = (category && wordsByCategory[category]) || words;
+  const nextWord = selectRandom(wordList);
   if (!nextUser || !nextWord) {
     delete roomToRound[room];
   } else {
@@ -55,8 +60,6 @@ export const generateRound = (
   return getRoomRound(room);
 };
 
-export const getRoomRound = (
-  room: string,
-): ?{ word: string, guesser: string } => {
+export const getRoomRound = (room: string): ?Round => {
   return roomToRound[room];
 };
