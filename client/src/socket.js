@@ -8,9 +8,10 @@ type GameStatus = {
   players: string[],
   word: ?string,
   guesser: ?string,
+  category: ?string,
   joinRoom: ({ room: string, username: string }) => void,
   leaveRoom: () => void,
-  getNewWord: () => void,
+  getNewWord: (?string) => void,
 };
 
 const useSocket = (): GameStatus => {
@@ -19,14 +20,16 @@ const useSocket = (): GameStatus => {
   const [players, setPlayers] = useState([]);
   const [word, setWord] = useState();
   const [guesser, setGuesser] = useState();
+  const [category, setCategory] = useState();
 
   const { current: socket } = useRef(io({ path: '/api/events' }));
   useEffect(() => {
     socket.on('user joined', ({ users }) => setPlayers(users));
     socket.on('user left', ({ users }) => setPlayers(users));
-    socket.on('round', ({ guesser, word }) => {
+    socket.on('round', ({ guesser, word, category }) => {
       setWord(word);
       setGuesser(guesser);
+      setCategory(category);
     });
 
     return () => {
@@ -41,6 +44,7 @@ const useSocket = (): GameStatus => {
     players,
     word,
     guesser,
+    category,
     joinRoom: ({ room, username }) => {
       socket.emit('join room', { room, username });
       setRoom(room);
@@ -54,7 +58,7 @@ const useSocket = (): GameStatus => {
       setWord(null);
       setGuesser(null);
     },
-    getNewWord: () => socket.emit('new round'),
+    getNewWord: (category) => socket.emit('new round', { category }),
   };
 };
 

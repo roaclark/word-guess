@@ -10,11 +10,20 @@ type Props = {
   players: string[],
   word: ?string,
   guesser: ?string,
-  getNewWord: () => void,
+  category: ?string,
+  getNewWord: (?string) => void,
 };
 
 const GameDisplay = (props: Props) => {
-  const { room, username, players, guesser, word, getNewWord } = props;
+  const {
+    room,
+    username,
+    players,
+    guesser,
+    word,
+    category,
+    getNewWord,
+  } = props;
 
   return (
     <div
@@ -27,6 +36,7 @@ const GameDisplay = (props: Props) => {
       <WordContent
         word={word}
         guesser={guesser}
+        category={category}
         username={username}
         getNewWord={getNewWord}
         style={{ flex: '1 1 200px' }}

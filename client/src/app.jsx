@@ -13,6 +13,7 @@ const App = () => {
     players,
     guesser,
     word,
+    category,
     joinRoom,
     getNewWord,
   } = useSocket();
@@ -25,6 +26,7 @@ const App = () => {
         players={players}
         word={word}
         guesser={guesser}
+        category={category}
         getNewWord={getNewWord}
       />
     ) : (

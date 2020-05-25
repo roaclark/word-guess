@@ -1,15 +1,22 @@
 //@flow
-import React from 'react';
+import React, { useState } from 'react';
 
+import Select from './Select';
 import Button from './Button';
 
 type Props = {
   word: ?string,
   guesser: ?string,
+  category: ?string,
   username: string,
-  getNewWord: () => void,
+  getNewWord: (?string) => void,
   style?: any,
 };
+
+const wordListOptions = [
+  { value: 'normal', name: 'Normal' },
+  { value: 'default', name: 'Default' },
+];
 
 const renderWord = (word) => (
   <div style={{ alignSelf: 'stretch', margin: '20px' }}>
@@ -32,9 +39,24 @@ const renderWord = (word) => (
 
 const renderHeader = (text) => <div style={{ padding: '10px' }}>{text}</div>;
 
-const Content = ({ word, guesser, username, getNewWord }: Props) => {
+const Content = ({ word, guesser, category, username, getNewWord }: Props) => {
+  const [selectedCategory, setSelectedCategory] = useState(
+    category || 'default',
+  );
+
   if (!word || !guesser) {
-    return <Button onClick={getNewWord}>Start the game</Button>;
+    return (
+      <>
+        <Select
+          options={wordListOptions}
+          value={selectedCategory}
+          onChange={setSelectedCategory}
+        />
+        <Button onClick={() => getNewWord(selectedCategory)}>
+          Start the game
+        </Button>
+      </>
+    );
   }
 
   if (guesser == username) {
@@ -42,7 +64,14 @@ const Content = ({ word, guesser, username, getNewWord }: Props) => {
       <>
         {renderHeader('Try to guess the word!')}
         {renderWord('???')}
-        <Button onClick={getNewWord}>Generate new word</Button>
+        <Select
+          options={wordListOptions}
+          value={selectedCategory}
+          onChange={setSelectedCategory}
+        />
+        <Button onClick={() => getNewWord(selectedCategory)}>
+          Generate new word
+        </Button>
       </>
     );
   }
