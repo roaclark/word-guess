@@ -46,7 +46,7 @@ const selectRandom = (lis) => {
 
 export const generateRound = (room: string, category?: string): ?Round => {
   const nextUser = selectRandom(getUsersInRoom(room));
-  const wordCategory = (category && categories[category]) || categories.normal;
+  const wordCategory = (category && categories[category]) || categories.all;
   const wordList = wordCategory.wordList;
   const nextWord = selectRandom(wordList);
   if (!nextUser || !nextWord) {
