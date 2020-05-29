@@ -16,6 +16,7 @@ const Button = ({ onClick, type, children }: Props): React.Node => {
         padding: '10px 10px',
         fontSize: '16px',
         cursor: 'pointer',
+        background: 'white',
       }}
       onClick={(e) => {
         if (onClick) {
