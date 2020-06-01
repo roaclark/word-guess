@@ -24,10 +24,11 @@ const getDetailsForSocket = (
 };
 
 const joinRoom = (
-  { username, room }: { username: string, room: string },
+  { username, room: originalRoom }: { username: string, room: string },
   socket: Socket,
   server: Server,
 ): void => {
+  const room = originalRoom.toLowerCase();
   console.log(`user ${username} joined ${room}`);
   addUserToRoom(username, room);
   socket.join(room, () => {
