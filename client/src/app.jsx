@@ -39,7 +39,6 @@ const App = () => {
         maxWidth: '800px',
         margin: 'auto',
         padding: '10%',
-        fontFamily: 'system-ui',
       }}
     >
       {content}
