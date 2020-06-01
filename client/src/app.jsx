@@ -4,10 +4,12 @@ import { render } from 'react-dom';
 
 import RoomForm from './RoomForm';
 import GameDisplay from './GameDisplay';
+import ConnectionErrorBanner from './ConnectionErrorBanner';
 import useSocket from './useSocket';
 
 const App = () => {
   const {
+    connected,
     room,
     username,
     players,
@@ -16,19 +18,23 @@ const App = () => {
     category,
     joinRoom,
     getNewWord,
+    retryConnection,
   } = useSocket();
 
   const content =
     room && username ? (
-      <GameDisplay
-        room={room}
-        username={username}
-        players={players}
-        word={word}
-        guesser={guesser}
-        category={category}
-        getNewWord={getNewWord}
-      />
+      <>
+        {!connected && <ConnectionErrorBanner retryFunc={retryConnection} />}
+        <GameDisplay
+          room={room}
+          username={username}
+          players={players}
+          word={word}
+          guesser={guesser}
+          category={category}
+          getNewWord={getNewWord}
+        />
+      </>
     ) : (
       <RoomForm onSubmit={joinRoom} />
     );

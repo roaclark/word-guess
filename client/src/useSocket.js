@@ -13,6 +13,7 @@ type GameStatus = {
   joinRoom: ({ room: string, username: string }) => void,
   leaveRoom: () => void,
   getNewWord: (?string) => void,
+  retryConnection: () => void,
 };
 
 const useSocket = (): GameStatus => {
@@ -36,6 +37,11 @@ const useSocket = (): GameStatus => {
     socket.on('connect', () => {
       console.log('connected');
       setConnected(true);
+
+      // Join room if already set, usually the case for reconnects
+      if (room && username) {
+        socket.emit('join room', { room, username });
+      }
     });
     socket.on('disconnect', (reason) => {
       console.log(`disconnected: ${reason}`);
@@ -55,6 +61,9 @@ const useSocket = (): GameStatus => {
       setGuesser(guesser);
       setCategory(category);
     });
+
+    // Handle connection state that may have changed before listeners were registered
+    setConnected(socket.connected);
 
     return () => {
       socket && socket.removeAllListeners();
@@ -94,6 +103,11 @@ const useSocket = (): GameStatus => {
         return;
       }
       socket.emit('new round', { category });
+    },
+    retryConnection: () => {
+      if (socket) {
+        socket.open();
+      }
     },
   };
 };
