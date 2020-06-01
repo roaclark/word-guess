@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 
 type GameStatus = {
+  connected: boolean,
   room: ?string,
   username: ?string,
   players: string[],
@@ -15,6 +16,7 @@ type GameStatus = {
 };
 
 const useSocket = (): GameStatus => {
+  const [connected, setConnected] = useState(false);
   const [room, setRoom] = useState();
   const [username, setUsername] = useState();
   const [players, setPlayers] = useState([]);
@@ -24,6 +26,21 @@ const useSocket = (): GameStatus => {
 
   const { current: socket } = useRef(io({ path: '/api/events' }));
   useEffect(() => {
+    socket.on('connect', () => {
+      console.log('connected');
+      setConnected(true);
+    });
+    socket.on('disconnect', (reason) => {
+      console.log(`disconnected: ${reason}`);
+      setConnected(false);
+    });
+    socket.on('connect_failed', () => {
+      console.log('failed to connect');
+    });
+    socket.on('reconnect_failed', () => {
+      console.log('failed to reconnect');
+    });
+
     socket.on('user joined', ({ users }) => setPlayers(users));
     socket.on('user left', ({ users }) => setPlayers(users));
     socket.on('round', ({ guesser, word, category }) => {
@@ -39,6 +56,7 @@ const useSocket = (): GameStatus => {
   }, [socket]);
 
   return {
+    connected,
     room,
     username,
     players,

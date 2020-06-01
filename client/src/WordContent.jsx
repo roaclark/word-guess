@@ -48,7 +48,6 @@ const Content = ({ word, guesser, category, username, getNewWord }: Props) => {
   useEffect(() => {
     fetchCategories(setCategories);
   }, []);
-  console.log(categories);
 
   if (!word || !guesser) {
     return (
