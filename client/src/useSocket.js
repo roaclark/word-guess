@@ -1,5 +1,5 @@
 //@flow
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
 type GameStatus = {
@@ -16,6 +16,7 @@ type GameStatus = {
 };
 
 const useSocket = (): GameStatus => {
+  const [socket, setSocket] = useState();
   const [connected, setConnected] = useState(false);
   const [room, setRoom] = useState();
   const [username, setUsername] = useState();
@@ -24,8 +25,14 @@ const useSocket = (): GameStatus => {
   const [guesser, setGuesser] = useState();
   const [category, setCategory] = useState();
 
-  const { current: socket } = useRef(io({ path: '/api/events' }));
   useEffect(() => {
+    setSocket(io({ path: '/api/events' }));
+  }, []);
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+
     socket.on('connect', () => {
       console.log('connected');
       setConnected(true);
@@ -64,11 +71,17 @@ const useSocket = (): GameStatus => {
     guesser,
     category,
     joinRoom: ({ room, username }) => {
+      if (!socket) {
+        return;
+      }
       socket.emit('join room', { room, username });
       setRoom(room);
       setUsername(username);
     },
     leaveRoom: () => {
+      if (!socket) {
+        return;
+      }
       socket.emit('leave room');
       setRoom(null);
       setUsername(null);
@@ -76,7 +89,12 @@ const useSocket = (): GameStatus => {
       setWord(null);
       setGuesser(null);
     },
-    getNewWord: (category) => socket.emit('new round', { category }),
+    getNewWord: (category) => {
+      if (!socket) {
+        return;
+      }
+      socket.emit('new round', { category });
+    },
   };
 };
 
