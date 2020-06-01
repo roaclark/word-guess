@@ -85,6 +85,12 @@ const Content = ({ word, guesser, category, username, getNewWord }: Props) => {
     <>
       {renderHeader(`${guesser} is trying to guess`)}
       {renderWord(word)}
+      <a
+        onClick={() => getNewWord(selectedCategory)}
+        style={{ color: 'blue', cursor: 'pointer' }}
+      >
+        Skip round
+      </a>
     </>
   );
 };
