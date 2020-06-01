@@ -44,8 +44,17 @@ const selectRandom = (lis) => {
   return lis[index];
 };
 
+const selectRoundGuesser = (room) => {
+  const currentRound = getRoomRound(room);
+  const potentialGuessers = getUsersInRoom(room).filter(
+    (user) => !(currentRound && user === currentRound.guesser),
+  );
+  const nextUser = selectRandom(potentialGuessers);
+  return nextUser;
+};
+
 export const generateRound = (room: string, category?: string): ?Round => {
-  const nextUser = selectRandom(getUsersInRoom(room));
+  const nextUser = selectRoundGuesser(room);
   const wordCategory = (category && categories[category]) || categories.all;
   const wordList = wordCategory.wordList;
   const nextWord = selectRandom(wordList);
