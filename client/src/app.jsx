@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 
 import RoomForm from './RoomForm';
 import GameDisplay from './GameDisplay';
-import useSocket from './socket';
+import useSocket from './useSocket';
 
 const App = () => {
   const {
