@@ -46,7 +46,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "@babel/runtime": "^7.9.6",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "socket.io": "^2.3.0",
